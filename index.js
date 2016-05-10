@@ -56,20 +56,16 @@ function putS3Image(image) {
 }
 
 exports.handler = function (event, context) {
-    var srcBucket = event.Records[0].s3.bucket.name;
-    // Object key may have spaces or unicode non-ASCII characters.
-    var srcKey = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
+    var s3Record = event.Records[0].s3;
+    var srcBucket = s3Record.bucket.name;
+    var srcKey = decodeURIComponent(s3Record.object.key.replace(/\+/g, " "));
 
     getS3Image(srcBucket, srcKey).then(function (image) {
-        transform(image).then(function (image) {
-            putS3Image(image).then(function(message){
-                console.log(message);
-            }).catch(function (error){
-                console.error(error);
-            });
-        }).catch(function (error) {
-            console.error(error);
-        });
+        return transform(image);
+    }).then(function (image){
+        return putS3Image(image);
+    }).then(function (message) {
+        console.log(message);
     }).catch(function (error) {
         console.error(error);
     });
