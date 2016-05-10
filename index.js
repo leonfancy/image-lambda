@@ -1,9 +1,8 @@
 'use strict'
-var AWS = require('aws-sdk');
-var S3Image = require('./lib/S3Image');
-var gm = require('gm').subClass({imageMagick: true});
-var Promise = require("es6-promise").Promise;
-var s3 = new AWS.S3({
+let AWS = require('aws-sdk');
+let S3Image = require('./lib/S3Image');
+let gm = require('gm').subClass({imageMagick: true});
+let s3 = new AWS.S3({
     apiVersion: "2006-03-01",
     endpoint: "https://s3-ap-northeast-1.amazonaws.com"
 });
@@ -14,7 +13,6 @@ function getS3Image(bucket, key) {
             if (error) {
                 reject(error);
             } else {
-                console.log("download");
                 resolve(new S3Image(bucket, key, data.Body, data.ContentType));
             }
         });
@@ -23,12 +21,11 @@ function getS3Image(bucket, key) {
 
 function transform(image) {
     return new Promise(function (resolve, reject) {
-        var imgType = image.getContentType().split('/')[1];
+        let imgType = image.getContentType().split('/')[1];
         gm(image.getData()).resize(300).toBuffer(imgType, function (error, buffer) {
             if (error) {
                 reject(error);
             } else {
-                console.log("transform");
                 image.setData(buffer);
                 resolve(image)
             }
@@ -48,7 +45,6 @@ function putS3Image(image) {
             if (err) {
                 reject(err);
             } else {
-                console.log("upload image");
                 resolve("success put image");
             }
         });
@@ -56,9 +52,9 @@ function putS3Image(image) {
 }
 
 exports.handler = function (event, context) {
-    var s3Record = event.Records[0].s3;
-    var srcBucket = s3Record.bucket.name;
-    var srcKey = decodeURIComponent(s3Record.object.key.replace(/\+/g, " "));
+    let s3Record = event.Records[0].s3;
+    let srcBucket = s3Record.bucket.name;
+    let srcKey = decodeURIComponent(s3Record.object.key.replace(/\+/g, " "));
 
     getS3Image(srcBucket, srcKey).then(function (image) {
         return transform(image);
