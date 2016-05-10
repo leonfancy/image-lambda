@@ -1,0 +1,19 @@
+{
+  "name": "eggular-image-processing",
+  "version": "1.0.0",
+  "description": "Eggular image processing",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chen Liang",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.3.9",
+    "es6-promise": "^3.1.2",
+    "gm": "^1.22.0"
+  }
+}
