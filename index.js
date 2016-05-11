@@ -13,6 +13,7 @@ function getS3Image(bucket, key) {
             if (error) {
                 reject(error);
             } else {
+                console.info("image: " + key + " is downloaded")
                 resolve(new S3Image(bucket, key, data.Body, data.ContentType));
             }
         });
@@ -26,6 +27,7 @@ function transform(image) {
             if (error) {
                 reject(error);
             } else {
+                console.info("image: " + image.getKey() + " is processed")
                 image.setData(buffer);
                 resolve(image)
             }
@@ -51,18 +53,18 @@ function putS3Image(image) {
     });
 }
 
-exports.handler = function (event, context) {
+exports.handler = function (event, context, callback) {
     let s3Record = event.Records[0].s3;
     let srcBucket = s3Record.bucket.name;
     let srcKey = decodeURIComponent(s3Record.object.key.replace(/\+/g, " "));
 
-    getS3Image(srcBucket, srcKey).then(function (image) {
-        return transform(image);
-    }).then(function (image){
-        return putS3Image(image);
-    }).then(function (message) {
-        console.log(message);
-    }).catch(function (error) {
-        console.error(error);
-    });
+    getS3Image(srcBucket, srcKey)
+        .then(transform)
+        .then(putS3Image)
+        .then(() => {
+            callback(null,  "Successfully processed image: " + srcKey + " in bucket: " + srcBucket);
+        })
+        .catch((error) => {
+            callback(error);
+        });
 };
