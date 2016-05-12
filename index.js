@@ -2,10 +2,10 @@
 let AWS = require('aws-sdk');
 let S3Image = require('./lib/S3Image');
 let gm = require('gm').subClass({imageMagick: true});
-let s3 = new AWS.S3({
-    apiVersion: "2006-03-01",
-    endpoint: "https://s3-ap-northeast-1.amazonaws.com"
-});
+let fs = require("fs");
+let util = require("util");
+let path = require("path");
+let s3 = new AWS.S3({apiVersion: "2006-03-01"});
 
 function getS3Image(bucket, key) {
     return new Promise(function (resolve, reject) {
@@ -13,44 +13,81 @@ function getS3Image(bucket, key) {
             if (error) {
                 reject(error);
             } else {
-                console.info("image: " + key + " is downloaded")
-                resolve(new S3Image(bucket, key, data.Body, data.ContentType));
+                console.info("[%s] [%s] - %s", bucket, key, "Downloaded.");
+                resolve(new S3Image(bucket, key, data.Body, {ContentType: data.ContentType}));
             }
         });
     });
 }
 
 function transform(image) {
+    let config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "config.json"), {encoding: "utf8"}));
+    let promises = [];
+    promises.push(reduce(image, config.reduce));
+    for (let params of config.resizes) {
+        promises.push(resize(image, params));
+    }
+    return Promise.all(promises);
+}
+
+function resize(image, params) {
     return new Promise(function (resolve, reject) {
-        let imgType = image.getContentType().split('/')[1];
-        gm(image.getData()).resize(300).toBuffer(imgType, function (error, buffer) {
-            if (error) {
-                reject(error);
-            } else {
-                console.info("image: " + image.getKey() + " is processed")
-                image.setData(buffer);
-                resolve(image)
-            }
-        });
+        gm(image.getData())
+            .resize(params.width, params.height)
+            .toBuffer(image.getImageType(), function (error, buffer) {
+                if (error) {
+                    reject(error);
+                } else {
+                    console.info("[%s] [%s] - %s", image.getBucket(), image.getKey(),
+                        `Resized. (width: ${params.width}, height: ${params.height})`);
+                    let key = image.getKey().replace(params.sourceDir, params.targetDir);
+                    let s3Image = new S3Image(params.targetBucket, key, buffer, image.getS3Params());
+                    s3Image.addS3Params('ACL', params.ACL);
+                    resolve(s3Image);
+                }
+            });
     });
 }
 
-function putS3Image(image) {
+function reduce(image, params) {
     return new Promise(function (resolve, reject) {
-        s3.putObject({
-            Bucket: image.getBucket(),
-            ACL: "public-read",
-            Key: image.getKey().replace("images/uploads", "images/200w"),
-            Body: image.getData(),
-            ContentType: image.getContentType()
-        }, function (err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve("success put image");
-            }
+        gm(image.getData())
+            .quality(82)
+            .toBuffer(image.getImageType(), function (error, buffer) {
+                if (error) {
+                    reject(error);
+                } else {
+                    console.info("[%s] [%s] - %s", image.getBucket(), image.getKey(), "Reduced.");
+                    let key = image.getKey().replace(params.sourceDir, params.targetDir);
+                    let s3Image = new S3Image(params.targetBucket, key, buffer, image.getS3Params());
+                    s3Image.addS3Params('ACL', params.ACL);
+                    resolve(s3Image);
+                }
+            });
+    });
+}
+
+function putS3Images(images) {
+    let promises = images.map(function (image) {
+        return new Promise(function (resolve, reject) {
+            s3.putObject({
+                Bucket: image.getBucket(),
+                Key: image.getKey(),
+                Body: image.getData(),
+                ACL: image.getS3Params().ACL,
+                ContentType: image.getS3Params().ContentType
+            }, function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.info("[%s] [%s] - %s", image.getBucket(), image.getKey(), "Uploaded.");
+                    resolve();
+                }
+            });
         });
     });
+
+    return Promise.all(promises);
 }
 
 exports.handler = function (event, context, callback) {
@@ -60,9 +97,11 @@ exports.handler = function (event, context, callback) {
 
     getS3Image(srcBucket, srcKey)
         .then(transform)
-        .then(putS3Image)
-        .then(() => {
-            callback(null,  "Successfully processed image: " + srcKey + " in bucket: " + srcBucket);
+        .then(putS3Images)
+        .then((results) => {
+            var message = util.format("[%s] [%s] - %s", srcBucket, srcKey,
+                `Successfully processed. Generated ${results.length} images.`);
+            callback(null, message);
         })
         .catch((error) => {
             callback(error);
