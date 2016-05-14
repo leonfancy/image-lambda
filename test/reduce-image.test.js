@@ -38,8 +38,8 @@ describe("ImageProcessor#reduce()", function () {
                     expect(reducedImage.getKey()).to.equal("images/reduce/test.jpg");
                     expect(reducedImage.getBucket()).to.equal("target-bucket");
                     done();
-                }).catch(function(error) {
-                    console.log(error.stack);
+                }).catch(function (error) {
+                    console.error(error);
                 });
             });
         }
@@ -61,7 +61,7 @@ describe("ImageProcessor#reduce()", function () {
                     expect(reducedImage.getKey()).to.equal("images/reduce/test.png");
                     expect(reducedImage.getBucket()).to.equal("target-bucket");
                     done();
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.error(error);
                 });
             });

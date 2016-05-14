@@ -11,7 +11,7 @@ describe("ImageProcessor#resize()", function () {
     this.timeout(10000);
     let config;
 
-    before(function () {
+    beforeEach(function () {
         config = {
             "resizes": [
                 {
@@ -44,7 +44,7 @@ describe("ImageProcessor#resize()", function () {
                         done();
                     });
                 }).catch(function (error) {
-                    console.log(error.stack);
+                    console.error(error);
                 });
             });
         }
@@ -74,4 +74,36 @@ describe("ImageProcessor#resize()", function () {
             });
         }
     });
+
+    it("should resize image based on height", function (done) {
+        delete config.resizes[0].width;
+        config.resizes[0].height = 300;
+        let data = fs.readFileSync(path.resolve(__dirname, "fixture/jpg/girl-2560x1600-1.3MB.jpg"), {encoding: "binary"});
+        let image = new S3Image("test-bucket", "images/uploads/test.jpg", data, {ContentType: "image/jpeg"});
+        let processor = new ImageProcessor(image, config);
+        processor.run().then(function (results) {
+            let reducedImage = results[0];
+            return Promise.all([getImageSize(image.getData()), getImageSize(reducedImage.getData())]).then(function (results) {
+                let originSize = results[0];
+                let reducedSize = results[1];
+                expect(reducedSize.height).to.equal(300);
+                expect(reducedSize.height/reducedSize.width).to.equal(originSize.height/originSize.width);
+                done();
+            });
+        }).catch(function (error) {
+            console.error(error);
+        });
+    });
+
+    function getImageSize(imageData) {
+        return new Promise(function (resolve, reject) {
+            gm(imageData).size({bufferStream: true}, function (error, size) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(size);
+                }
+            });
+        })
+    }
 });
