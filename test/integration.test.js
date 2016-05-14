@@ -2,7 +2,6 @@
 let fs = require("fs");
 let path = require("path");
 let AWS = require('aws-sdk-mock');
-let expect = require("chai").expect;
 
 let lambdaHandler = require("../index").handler;
 
