@@ -1,17 +1,18 @@
 {
-  "name": "eggular-image-processing",
+  "name": "slim-lambda",
   "version": "1.0.0",
-  "description": "Eggular image processing",
+  "description": "An AWS Lambda function that AWS S3 can invoke to create thumbnails or reduce file size for png and jpg images.",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha test/*.test.js",
-    "build": "./build.sh"
+    "build": "./build.sh",
+    "vagrant:build": "./vagrant_build.sh"
   },
   "author": "Chen Liang",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.3.9",
     "gm": "^1.22.0",
