@@ -27,7 +27,7 @@ describe("ImageProcessor#reduce()", function () {
 
         for (let file of files) {
             it(file, function (done) {
-                let data = fs.readFileSync(path.resolve(__dirname, "fixture/jpg/" + file), {encoding: "binary"});
+                let data = fs.readFileSync(path.resolve(__dirname, "fixture/jpg/" + file));
                 let image = new S3Image("test-bucket", "images/uploads/test.jpg", data, {ContentType: "image/jpeg"});
                 let processor = new ImageProcessor(image, config);
                 processor.run().then(function (results) {
@@ -50,7 +50,7 @@ describe("ImageProcessor#reduce()", function () {
 
         for (let file of files) {
             it(file, function (done) {
-                let data = fs.readFileSync(path.resolve(__dirname, "fixture/png/" + file), {encoding: "binary"});
+                let data = fs.readFileSync(path.resolve(__dirname, "fixture/png/" + file));
                 let image = new S3Image("test-bucket", "images/uploads/test.png", data, {ContentType: "image/png"});
                 let processor = new ImageProcessor(image, config);
                 processor.run().then(function (results) {
