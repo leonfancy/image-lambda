@@ -7,6 +7,10 @@ Features:
 - PNG files with 100% support for transparency.
 - Resize jpg/png based on configuration.
 
+## Dependencies
+- `node`, version: 4.x
+- `Vagrant`, if you are not work on Linux system, you should install Vagrant for building deployment package.
+
 ## How it works
 
 Once you deployed **Slim-Lambda** package to AWS Lambda and configured it. When an image is uploaded to AWS S3 bucket, S3 sends an notification to AWS Lambda and invokes the **Slim-Lambda** function. **Slim-Lambda** reduce/resize the image based on configuration and then put the processed images to target bucket/directory.
