@@ -1,9 +1,9 @@
 'use strict'
-let fs = require("fs");
-let path = require("path");
-let sourceFile = path.join(__dirname, "/fixture/event.json");
-let event = JSON.parse(fs.readFileSync(sourceFile));
-let eventHandler = require("../index").handler;
+const fs = require("fs");
+const path = require("path");
+const sourceFile = path.join(__dirname, "/fixture/event.json");
+const event = JSON.parse(fs.readFileSync(sourceFile));
+const eventHandler = require("../index").handler;
 
 
 eventHandler(event, null, (error, data) => {

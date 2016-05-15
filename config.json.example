@@ -14,10 +14,10 @@
       "ACL": "public-read"
     },
     {
-      "width": 200,
+      "height": 200,
       "sourceDir": "images/uploads",
       "targetBucket": "example",
-      "targetDir": "images/200w",
+      "targetDir": "images/200h",
       "ACL": "public-read"
     }
   ]

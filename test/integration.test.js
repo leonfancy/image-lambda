@@ -1,9 +1,9 @@
 'use strict'
-let fs = require("fs");
-let path = require("path");
-let AWS = require('aws-sdk-mock');
+const fs = require("fs");
+const path = require("path");
+const AWS = require('aws-sdk-mock');
 
-let lambdaHandler = require("../index").handler;
+const lambdaHandler = require("../index").handler;
 
 describe("Handle s3 event", function () {
     this.timeout(10000);

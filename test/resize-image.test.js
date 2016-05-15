@@ -1,12 +1,12 @@
 'use strict'
-let ImageProcessor = require("../lib/ImageProcessor");
-let S3Image = require("../lib/S3Image");
-let expect = require("chai").expect;
-let gm = require('gm').subClass({imageMagick: true});
-let helper = require("./helper");
+const ImageProcessor = require("../lib/ImageProcessor");
+const S3Image = require("../lib/S3Image");
+const expect = require("chai").expect;
+const gm = require('gm').subClass({imageMagick: true});
+const helper = require("./helper");
 
-let fs = require("fs");
-let path = require("path");
+const fs = require("fs");
+const path = require("path");
 
 describe("ImageProcessor#resize()", function () {
     this.timeout(10000);

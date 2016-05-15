@@ -1,11 +1,11 @@
 'use strict'
 
-let fs = require("fs");
-let util = require("util");
-let path = require("path");
+const fs = require("fs");
+const util = require("util");
+const path = require("path");
 
-let ImageProcessor = require('./lib/ImageProcessor');
-let S3Client = require('./lib/S3Client');
+const ImageProcessor = require('./lib/ImageProcessor');
+const S3Client = require('./lib/S3Client');
 
 exports.handler = function (event, context, callback) {
     let s3Record = event.Records[0].s3;
