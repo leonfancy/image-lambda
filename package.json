@@ -14,7 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.3.9",
-    "gm": "^1.22.0"
+    "gm": "^1.22.0",
+    "imagemin": "^5.1.1",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-pngquant": "^5.0.0"
   },
   "devDependencies": {
     "aws-sdk-mock": "^1.0.10",

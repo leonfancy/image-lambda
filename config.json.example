@@ -1,7 +1,7 @@
 {
   "reduce": {
     "sourceDir": "images/uploads",
-    "targetBucket": "dev.eggular",
+    "targetBucket": "example",
     "targetDir": "images/reduce",
     "ACL": "public-read"
   },
@@ -9,14 +9,14 @@
     {
       "width": 100,
       "sourceDir": "images/uploads",
-      "targetBucket": "dev.eggular",
+      "targetBucket": "example",
       "targetDir": "images/100w",
       "ACL": "public-read"
     },
     {
       "width": 200,
       "sourceDir": "images/uploads",
-      "targetBucket": "dev.eggular",
+      "targetBucket": "example",
       "targetDir": "images/200w",
       "ACL": "public-read"
     }

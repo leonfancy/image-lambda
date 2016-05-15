@@ -1,4 +1,5 @@
 build/
+test/out/
 node_modules/
 config.json
 .idea
