@@ -1,5 +1,7 @@
 # slim-lambda
 
+[![Build Status](https://travis-ci.org/slimfancy/slim-lambda.svg?branch=master)](https://travis-ci.org/slimfancy/slim-lambda)
+
 An AWS Lambda function that AWS S3 can invoke to create thumbnails or reduce file size for png and jpg images.
 
 Features:
