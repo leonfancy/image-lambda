@@ -3,3 +3,9 @@ node_js:
   - "4"
 script:
   - "npm test"
+  - "npm run build"
+
+addons:
+  artifacts:
+    s3_region: ap-northeast-1
+    paths: ./build/slim-lambda.zip
