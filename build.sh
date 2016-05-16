@@ -2,9 +2,9 @@
 if [ ! -d build ]; then
     mkdir build
 fi
-cp config.json build/config.json
-cp index.js build/index.js
-cp -R lib build/lib
+cp config.json build/
+cp index.js build/
+cp -R lib build/
 cp package.json build/
 cd build
 npm install --production
