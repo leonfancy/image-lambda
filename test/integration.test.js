@@ -8,6 +8,12 @@ const lambdaHandler = require("../index").handler;
 describe("Handle s3 event", function () {
     this.timeout(10000);
     before(function () {
+        let configFile = path.join(__dirname, "../config.json");
+        if (!fs.existsSync(configFile)) {
+            let exampleFile = path.join(__dirname, "../config.json.example");
+            fs.writeFileSync(configFile, fs.readFileSync(exampleFile));
+        }
+
         AWS.mock("S3", "getObject", function (params, callback) {
             fs.readFile(path.join(__dirname, "fixture/jpg/girl-2560x1600-1.3MB.jpg"), function (error, content) {
                 callback(error, {Body: content, ContentType: "image/jpeg"});
