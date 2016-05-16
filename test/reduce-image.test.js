@@ -52,6 +52,7 @@ describe("ImageProcessor#reduce()", function () {
     describe("png images:", function () {
         let files = ["fixture/png/backpack-2800x2800-8.8MB.png",
             "fixture/png/imac-800x450-255KB.png",
+            "fixture/png/flavors-1500x735-2.7MB.png",
             "fixture/png/keyboard-1976x1692-2.1MB.png"];
 
         for (let file of files) {
