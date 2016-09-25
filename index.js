@@ -6,6 +6,7 @@ const path = require("path");
 
 const ImageProcessor = require('./lib/ImageProcessor');
 const S3Client = require('./lib/S3Client');
+const Message = require('./lib/Message');
 
 exports.handler = function (event, context, callback) {
     let s3Record = event.Records[0].s3;
@@ -27,7 +28,11 @@ exports.handler = function (event, context, callback) {
                 `Successfully processed. Generated ${results.length} images.`);
             callback(null, message);
         })
-        .catch((error) => {
-            callback(error);
+        .catch((reason) => {
+            if(reason instanceof Message) {
+                callback(null, reason.body)
+            } else {
+                callback(reason);
+            }
         });
 };

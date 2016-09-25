@@ -53,10 +53,10 @@ describe("Handle s3 event", function () {
         let eventFixture = JSON.parse(fs.readFileSync(path.join(__dirname, "/fixture/event.json")));
         lambdaHandler(eventFixture, null, (error, data) => {
             if (error) {
-                expect(error.message).to.equal('Image is already processed');
-                done();
+                done(error);
             } else {
-                done(new Error('Image should not be proccessed'));
+                expect(data).to.contain('Image is already processed');
+                done();
             }
         });
     })
