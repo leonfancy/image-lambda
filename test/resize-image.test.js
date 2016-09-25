@@ -26,7 +26,7 @@ describe("ImageProcessor#resize()", function () {
         }
     });
 
-    describe("jpg image:", function () {
+    describe("jpg images:", function () {
         let files = ["fixture/jpg/girl-2560x1600-1.3MB.jpg",
             "fixture/jpg/ios9-1050x1734-299KB.jpg",
             "fixture/jpg/meeting-5184x3456-7.2MB.jpg"];
@@ -86,7 +86,7 @@ describe("ImageProcessor#resize()", function () {
         delete config.resizes[0].width;
         config.resizes[0].height = 300;
         config.resizes[0].targetDir = "images/300h";
-        var file = "fixture/jpg/girl-2560x1600-1.3MB.jpg";
+        let file = "fixture/jpg/girl-2560x1600-1.3MB.jpg";
         let data = fs.readFileSync(path.resolve(__dirname, file));
         let image = new S3Image("test-bucket", "images/uploads/" + file, data, {ContentType: "image/jpeg"});
         let processor = new ImageProcessor(image, config);
