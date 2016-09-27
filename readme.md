@@ -33,7 +33,7 @@ npm install
 **image-lambda** supports configuration for reduce/resize image. There is `config.json.sample` in project root directory as example. You can copy to use it.
 
 ```
-$ cp config.json.sample config.json
+$ cp config.json.example config.json
 ```
 
 Here is an example of configuration:
