@@ -1,5 +1,5 @@
 {
-  "name": "slim-lambda",
+  "name": "image-lambda",
   "version": "1.0.0",
   "description": "An AWS Lambda function that AWS S3 can invoke to create thumbnails or reduce file size for png and jpg images.",
   "main": "index.js",
@@ -28,6 +28,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:SlimFancy/slim-lambda.git"
+    "url": "git@github.com:slimfancy/image-lambda.git"
   }
 }

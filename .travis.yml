@@ -12,4 +12,4 @@ script:
 addons:
   artifacts:
     s3_region: ap-northeast-1
-    paths: ./build/slim-lambda.zip
+    paths: ./build/image-lambda.zip

@@ -9,9 +9,9 @@ cp package.json build/
 cd build
 npm install --production
 echo "Creating zip package..."
-zip -rq slim-lambda.zip .
+zip -rq image-lambda.zip .
 if [ $? -eq 0 ]; then
-    echo "Successfully created package: build/slim-lambda.zip"
+    echo "Successfully created package: build/image-lambda.zip"
 else
     echo "Build failed"
 fi
