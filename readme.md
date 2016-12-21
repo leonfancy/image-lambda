@@ -55,17 +55,20 @@ Here is an example of configuration:
       "ACL": "public-read"
     },
     {
-      "width": 200,
-      "sourceDir": "images/uploads",
-      "targetBucket": "example",
-      "targetDir": "images/200w",
-      "ACL": "public-read"
-    },
-    {
       "height": 200,
       "sourceDir": "images/uploads",
       "targetBucket": "example",
       "targetDir": "images/200h",
+      "ACL": "public-read"
+    },
+    {
+      "height": 200,
+      "width": 200,
+      "resizeOption": "^",
+      "sourceDir": "images/uploads",
+      "targetBucket": "example",
+      "targetDir": "images/200",
+      "format": "jpg",
       "ACL": "public-read"
     }
   ]

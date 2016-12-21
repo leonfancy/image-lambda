@@ -21,10 +21,12 @@
       "ACL": "public-read"
     },
     {
-      "height": 300,
+      "height": 200,
+      "width": 200,
+      "resizeOption": "^",
       "sourceDir": "images/uploads",
       "targetBucket": "example",
-      "targetDir": "images/300h",
+      "targetDir": "images/200",
       "format": "jpg",
       "ACL": "public-read"
     }
