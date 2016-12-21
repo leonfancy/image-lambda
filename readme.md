@@ -77,6 +77,7 @@ Here is an example of configuration:
 - `ACL`: *private | public-read | public-read-write | authenticated-read | aws-exec-read | bucket-owner-read | bucket-owner-full-control*. Controls the permission of generated images.
 - `targetBucket`: (Optionally) Specify the bucket where you want to put the generated images. If omitted will use the same bucket as the source image.
 - `width/height`: It's better to just specify one of them, the other side can be resized based on the ratio.
+- `resizeOption`: For resizing images, this optional parameter can be set to one of the [ImageMagick geometry operators](https://www.imagemagick.org/script/command-line-processing.php#geometry).
 - `format`: specify a different output format for the image (this parameter only valid for for resizes).
 
 ## Create AWS Lambda deployment package
