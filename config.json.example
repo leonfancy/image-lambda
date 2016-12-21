@@ -19,6 +19,14 @@
       "targetBucket": "example",
       "targetDir": "images/200h",
       "ACL": "public-read"
+    },
+    {
+      "height": 300,
+      "sourceDir": "images/uploads",
+      "targetBucket": "example",
+      "targetDir": "images/300h",
+      "format": "jpg",
+      "ACL": "public-read"
     }
   ]
 }
