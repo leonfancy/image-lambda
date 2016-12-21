@@ -75,7 +75,7 @@ Here is an example of configuration:
 - `resizes`: Define different image sizes. This example creates 3 thumbnails with different sizes.
 - `sourceDir/targetDir`: For example, the uploaded image S3 key is "images/uploads/test-images/test.jpg", you want to generate a reduced image to directory *images/reduce*,  so you can configure `sourceDir=images/uploads` and `targetDir=images/reduce`. Thus, you will get a reduced image with key "images/reduce/test-images/test.jpg". **image-lambda** replace the `sourceDir` in image s3 key with the `targetDir`.
 - `ACL`: *private | public-read | public-read-write | authenticated-read | aws-exec-read | bucket-owner-read | bucket-owner-full-control*. Controls the permission of generated images.
-- `targetBucket`: Specify the bucket where you want to put the generated images.
+- `targetBucket`: (Optionally) Specify the bucket where you want to put the generated images. If omitted will use the same bucket as the source image.
 - `width/height`: It's better to just specify one of them, the other side can be resized based on the ratio.
 
 
